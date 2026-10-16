@@ -2,6 +2,8 @@
 
 A local-first Model Context Protocol (MCP) server for an agency owner who wants to turn a client brief into a project plan, saved tasks, and a client-ready proposal.
 
+New to the project? Read [PROJECT_GUIDE.md](PROJECT_GUIDE.md) for a plain-language explanation of every part of the system, how the workflow works, and what is stored where.
+
 ## What it does
 
 1. The owner enters a client brief.
