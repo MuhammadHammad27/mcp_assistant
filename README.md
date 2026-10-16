@@ -74,15 +74,34 @@ This is a local operations assistant. It deliberately does not send emails, chan
 
 After drafting a proposal in the project workspace, select **Download proposal PDF**. The generated document contains the client name, project goal, scope, delivery timeline, investment note, and next step. It is created locally in memory and downloads directly through the dashboard; no external storage or paid document service is used.
 
-## Deployment status
+## Live deployment
 
-This project is intentionally kept local-first for the current portfolio MVP. Public hosting, a custom domain, and a hosted MCP connection are future work; the current dashboard, SQLite database, MCP server, Kanban board, and PDF export all run locally.
+The dashboard is deployed on Render:
+
+- **Live URL:** https://mcp-assistant-58tz.onrender.com
+- **Runtime:** Docker on Render Free
+- **Branch:** `main`
+- **Region:** Virginia, US East
+
+The first public deployment completed successfully on October 16, 2026. Render logs confirmed the FastAPI server started and the dashboard returned `200 OK` at `/`.
+
+The Render Free instance sleeps after 15 minutes without traffic. Opening the URL starts it again, and the first request can take about a minute.
 ## Protected deployment
 
 The public dashboard and remote Streamable HTTP MCP endpoint are designed to run with a single owner access key. Set `APP_ENV=production` and a strong `WORKSPACE_ACCESS_KEY` in the hosting platform's secret manager. The dashboard asks for this key once per browser session and sends it only as an HTTP request header. The remote MCP endpoint is mounted at `/mcp` and requires the same header.
 
 Do not publish the local `data/agency.db` file. Use a managed persistent data store or a mounted encrypted volume before storing real client work in production.
 
-## Free hosted deployment
+## Hosted configuration
 
-The production configuration uses a Render free web service plus a Neon free Postgres project. Set `APP_ENV=production`, `WORKSPACE_ACCESS_KEY`, and `DATABASE_URL` in Render's secret environment variables. Render's free service may sleep when idle; Neon persists the projects, tasks, proposals, and activity log independently of the web service.
+Set these values in Render's secret environment variables:
+
+| Variable | Purpose |
+| --- | --- |
+| `APP_ENV` | Set to `production` to require dashboard authentication. |
+| `WORKSPACE_ACCESS_KEY` | A long private owner key used for the dashboard and remote MCP endpoint. |
+| `DATABASE_URL` | A Neon PostgreSQL connection string for durable project, task, proposal, and activity data. |
+
+Never commit these values to GitHub. The service can run without `DATABASE_URL`, but then it uses local SQLite storage. On Render Free, local files are ephemeral and data can be lost after a restart or sleep cycle. Use Neon before storing real client work.
+
+For deployment history and operational checks, see [DEPLOYMENT_NOTES.md](DEPLOYMENT_NOTES.md).
