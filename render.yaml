@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: agency-operations-dashboard
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: WORKSPACE_ACCESS_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agency Operations — MCP</title>
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <p class="eyebrow">LOCAL MCP CONTROL ROOM</p>
+        <h1>Agency Operations</h1>
+        <p class="intro">Turn a client brief into an executable project plan, tasks and a client-ready proposal.</p>
+      </div>
+      <span class="pill">MCP server online</span>
+    </header>
+    <section class="metrics" id="metrics" aria-label="Agency metrics"></section>
+    <section class="grid">
+      <article class="panel brief-panel">
+        <p class="eyebrow">01 / CLIENT BRIEF</p>
+        <h2>Create a project plan</h2>
+        <form id="brief-form">
+          <label>Client name<input name="client_name" placeholder="Acme Studio" required /></label>
+          <label>Project name<input name="project_name" placeholder="AI Launch Campaign" required /></label>
+          <label>Timeline in days<input name="timeline_days" type="number" min="1" max="365" value="7" required /></label>
+          <label>Brief<textarea name="brief" placeholder="Describe the client need, audience and expected outcome..." required></textarea></label>
+          <button>Create plan</button>
+        </form>
+        <p id="form-message" class="message" role="status"></p>
+      </article>
+      <article class="panel">
+        <p class="eyebrow">02 / PROJECTS</p>
+        <h2>Saved client work</h2>
+        <div id="projects" class="stack"></div>
+      </article>
+      <article class="panel workspace-panel">
+        <p class="eyebrow">03 / PROJECT WORKSPACE</p>
+        <h2 id="workspace-title">Select a project</h2>
+        <p id="workspace-copy" class="subtle">Create a plan, then open it here to generate starter tasks and a proposal.</p>
+        <div id="workspace-actions" class="workspace-actions" hidden>
+          <button id="starter-tasks" class="secondary">Create starter tasks</button>
+          <button id="draft-proposal">Draft client proposal</button>
+        </div>
+        <form id="task-form" class="task-form" hidden>
+          <label>Task title<input name="title" placeholder="Approve final visual direction" required /></label>
+          <label>Priority
+            <select name="priority">
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="urgent">Urgent</option>
+              <option value="low">Low</option>
+            </select>
+          </label>
+          <label>Description<input name="description" placeholder="Optional task detail" /></label>
+          <button type="submit" class="secondary">Add custom task</button>
+        </form>
+        <p id="task-message" class="message" role="status"></p>
+        <div id="tasks" class="stack task-list"></div>
+        <pre id="proposal" class="proposal" hidden></pre>
+        <a id="proposal-download" class="proposal-download" hidden download>Download proposal PDF</a>
+      </article>
+      <article class="panel kanban-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">LIVE DELIVERY BOARD</p>
+            <h2>Kanban workflow</h2>
+          </div>
+          <p class="subtle">Task status changes appear here automatically.</p>
+        </div>
+        <div id="kanban" class="kanban" aria-label="Task Kanban board"></div>
+      </article>      <article class="panel activity-panel">
+        <p class="eyebrow">MCP ACTIVITY</p>
+        <h2>Live operation log</h2>
+        <p class="subtle">Every workflow action is saved in SQLite and uses the same project, task and proposal functions exposed as MCP tools.</p>
+        <div id="activity" class="stack"></div>
+      </article>
+    </section>
+  </main>
+  <script src="/assets/app.js"></script>
+</body>
+</html>
